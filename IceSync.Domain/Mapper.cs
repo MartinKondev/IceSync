@@ -1,4 +1,4 @@
-﻿using IceSync.Domain.Models;
+﻿using IceSync.Domain.Models.Dtos;
 using IceSync.Domain.Models.Entities;
 
 namespace IceSync.Domain

@@ -33,6 +33,7 @@ namespace IceSync.Infrastructure.Workers
                 var fetchedWorkflows = await _universalLoaderClient.GetWorkflowsList(bearer.Token);
                 var existing = await _dbContext.Workflows.ToListAsync();
 
+                // Add
                 var newWorkflowsDtos = fetchedWorkflows
                     .Where(f => !existing.Select(x => x.Id)
                     .Any(e => f.Id == e))
@@ -40,13 +41,13 @@ namespace IceSync.Infrastructure.Workers
                 var mapped = newWorkflowsDtos.Select(x => x.MapFromDto());
                 _dbContext.AddRange(mapped);
 
+                // Remove
                 var forDeletion = existing
                     .Where(f => !fetchedWorkflows.Select(x => x.Id)
                     .Any(e => f.Id == e));
                 _dbContext.RemoveRange(forDeletion);
 
-                _dbContext.SaveChanges();
-
+                // Update
                 await _dbContext.Workflows.ForEachAsync(x =>
                 {
                     x = x.UpdateFromDto(fetchedWorkflows.First(e => e.Id == x.Id));

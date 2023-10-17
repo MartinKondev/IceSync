@@ -21,21 +21,21 @@ namespace IceSync.Application.Middleware
             _memoryCache = memoryCache;
         }
 
-
         public async Task InvokeAsync(HttpContext context)
         {
-            if (!_memoryCache.TryGetValue(CommonConstants.BearerCacheKey, out BearerCacheData? bearer))
+            if (!_memoryCache.TryGetValue(Constants.BearerKey, out BearerCacheData? bearer))
             {
                 bearer = await _universalLoaderClient.Authenticate();
-                _memoryCache.Set(CommonConstants.BearerCacheKey, bearer);
+                _memoryCache.Set(Constants.BearerKey, bearer);
             }
             else if (bearer.ExpirationDate < DateTimeOffset.UtcNow)
             {
                 bearer = await _universalLoaderClient.Authenticate();
-                _memoryCache.Set(CommonConstants.BearerCacheKey, bearer);
+                _memoryCache.Set(Constants.BearerKey, bearer);
             }
 
-            context.Items.Add("Bearer", bearer);
+            context.Items.Add(Constants.BearerKey, bearer);
+
             await _next(context);
         }
     }

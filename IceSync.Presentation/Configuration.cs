@@ -1,5 +1,7 @@
 ﻿using IceSync.Domain.Models.Configuration;
 using IceSync.Infrastructure.ExternalApis;
+using IceSync.Infrastructure.Sql;
+using IceSync.Infrastructure.Workers;
 
 namespace IceSync
 {
@@ -11,8 +13,11 @@ namespace IceSync
             builder.Services.Configure<UniversalLoaderConfig>(builder.Configuration.GetSection("UniversalLoader"));
 
             builder.Services.AddHttpClient();
-            builder.Services.AddSingleton<HttpClient>();
             builder.Services.AddScoped<UniversalLoaderClient>();
+            builder.Services.AddSql(builder.Configuration.GetConnectionString("DefaultConnection"));
+            builder.Services.AddMemoryCache();
+            builder.Services.AddHostedService<WorkflowsWorker>();
+
         }
     }
 }

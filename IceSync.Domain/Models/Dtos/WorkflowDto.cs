@@ -1,4 +1,4 @@
-﻿namespace IceSync.Domain.Models
+﻿namespace IceSync.Domain.Models.Dtos
 {
     public class WorkflowDto
     {

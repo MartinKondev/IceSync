@@ -7,8 +7,9 @@ namespace IceSync.Infrastructure.Sql
     {
         public IceSyncDbContext CreateDbContext(string[] args)
         {
+            var connectoinString = "";
             var optionsBuilder = new DbContextOptionsBuilder<IceSyncDbContext>();
-            optionsBuilder.UseSqlServer("Data Source=BGMOB40048\\SQLEXPRESS;Initial Catalog=IceSync;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
+            optionsBuilder.UseSqlServer(connectoinString);
 
             return new IceSyncDbContext(optionsBuilder.Options);
         }

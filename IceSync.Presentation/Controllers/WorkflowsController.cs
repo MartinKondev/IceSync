@@ -1,4 +1,5 @@
-﻿using IceSync.Domain.Models.Caching;
+﻿using IceSync.Domain.Constants;
+using IceSync.Domain.Models.Caching;
 using IceSync.Infrastructure.ExternalApis;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,7 +16,7 @@ namespace IceSync.Presentation.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var bearer = HttpContext.Items["Bearer"] as BearerCacheData;
+            var bearer = HttpContext.Items[Constants.BearerKey] as BearerCacheData;
             var data = await _universalLoaderClient.GetWorkflowsList(bearer.Token);
 
             return View(data);
@@ -24,7 +25,7 @@ namespace IceSync.Presentation.Controllers
         [Route("/Workflows/{id}/Run")]
         public async Task<bool> Run(int id)
         {
-            var bearer = Request.Cookies["Bearer"];
+            var bearer = Request.Cookies[Constants.BearerKey];
             return await _universalLoaderClient.Run(bearer, id);
         }
     }
