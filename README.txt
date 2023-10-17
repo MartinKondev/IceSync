@@ -2,5 +2,6 @@ Architecture inspired from: https://thecodewrapper.com/wp-content/uploads/2021/0
 
 How to run the project:
 1. Fill in 'appsettings.json'.
-2. For running the EF migrations, fill in DesignTimeFactory.cs -> connectoinString
-3. Run the application
+2. For running the EF migrations, fill in DesignTimeFactory.cs -> connectoinString.
+3. Run update-database
+4. Run the application
