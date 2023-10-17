@@ -1,0 +1,77 @@
+﻿@model IEnumerable<IceSync.Domain.Models.WorkflowDto>
+@{
+    ViewData["Title"] = "List";
+}
+
+<h1>Workflows</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsRunning)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MultiExecBehavior)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsRunning)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MultiExecBehavior)
+                </td>
+                <td>
+                    <button class="btn btn-primary" type="button" onclick="run(@item.Id)">Run</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script type="text/javascript">
+    function run(id) {
+        fetch(`/workflows/${id}/run`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: id }),
+        })
+            .then((response) => handleResponse(response))
+            .catch((error) => handleError(error));
+
+    }
+    function handleResponse(response) {
+        if (response.status === 200) {
+            alert("Run Successful!");
+        }
+        else {
+            alert("Run Failed!");
+        }
+    }
+    function handleError(error) {
+        alert("Run Failed!");
+    }
+</script>
